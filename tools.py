@@ -14,11 +14,11 @@ client = serpapi.Client(api_key=api_key)
 def search_flights(
     departure_id: str,
     arrival_id: str,
-    outbound_date: str,
+    journey_date: str,
     return_date: str | None = None,
     currency: str = "INR",
     hl: str = "en",
-):
+) -> dict:
 
     """
         get all flights between src and destination
@@ -27,7 +27,7 @@ def search_flights(
         "engine": "google_flights",
         "departure_id": departure_id,
         "arrival_id": arrival_id,
-        "outbound_date": outbound_date,
+        "outbound_date": journey_date,
         "currency": currency,
         "hl": hl,
         "stops":3
@@ -36,44 +36,69 @@ def search_flights(
     # Only include return_date when the user requested a return flight
     if return_date:
         params["return_date"] = return_date
+        params["type"] = 1       # round trip
+    else:
+        params["type"] = 2 
 
-    results = client.search(params)
-    string_result=json.dumps(results.__dict__, indent=4, default=str)
+    response = client.search(params)
+    response_dict=response.__dict__
+    data = response_dict["data"]
+    routes = []
 
-    print("\n\n",string_result)
-    return string_result
+    all_routes = [
+        ("best", data.get("best_flights", [])),
+        ("other", data.get("other_flights", []))
+    ]
+
+    route_id = 1
+
+    for category, flight_list in all_routes:
+        for route in flight_list:
+
+            routes.append({
+                "route_id": route_id,
+                "category": category,
+                "flights": route.get("flights", []),
+                "layovers": route.get("layovers", []),
+                "total_duration": route.get("total_duration"),
+                "price": route.get("price"),
+                "currency": "INR",
+                "type": route.get("type"),
+                "airline_logo": route.get("airline_logo"),
+                "carbon_emissions": route.get("carbon_emissions"),
+                "departure_token": route.get("departure_token")
+            })
+
+            route_id += 1
+
+    return {
+        "routes": routes
+    }
+
 
 # results = search_flights(
-#     departure_id="DEL",
-#     arrival_id="HYD",
-#     outbound_date="2026-08-27",
+#     departure_id="IXC",
+#     arrival_id="VGA",
+#     outbound_date="2026-08-29",
 #     return_date="2026-09-02",
 # )
 # print(results)
-# string_result=json.dumps(results.__dict__, indent=4, default=str)
-# string_result1 = json.dumps(results.data, indent=4)
-# print("\n\n\n",string_result,"\n\n\n\n",string_result1)
-# with open("example.txt", "w", encoding="utf-8") as file:
-#     file.write(string_result)
+#print("\n\n\n",string_result,"\n\n\n\n",string_result1)
 
 
 
 
 
 
-def compare_flights(results, limit=10):
-    """
-        compare flights based on the cost 
-    """
-    raw_flights = []
 
-    raw_flights.extend(results.get("best_flights", []))
-    raw_flights.extend(results.get("other_flights", []))
+def compare_flights(data: dict) -> dict:
+    routes = data.get("routes", [])
 
-    normalized = []
-    # Cheapest first
-    normalized.sort(
-        key=lambda x: x["price"]
+    sorted_routes = sorted(
+        routes,
+        key=lambda route: route.get("price", float("inf"))
     )
 
-    return normalized[:limit]
+    return {
+        "routes": sorted_routes
+    }

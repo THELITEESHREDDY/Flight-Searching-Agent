@@ -29,13 +29,14 @@ tool_schema = [
                         "type": "string"
                     },
                     
-                    "return_date": {
-                        "type": ["string", "null"]
+                    "journey_date": {
+                        "type": "string"
                     }
                 },
                 "required": [
                     "departure_id",
-                    "arrival_id"
+                    "arrival_id",
+                    "journey_date"
                 ]
             }
         }
@@ -45,27 +46,16 @@ tool_schema = [
         "type": "function",
         "function": {
             "name": "compare_flights",
-            "description": "Compare and rank flight results.",
+            "description": "Compare and rank flight results.based on cost",
             "parameters": {
                 "type": "object",
                 "properties": {
-                    "sort_by": {
-                        "type": "string",
-                        "enum": [
-                            "price",
-                            "duration",
-                            "stops"
-                        ]
-                    },
-                    "max_stops": {
-                        "type": ["integer", "null"]
-                    },
-                    "limit": {
-                        "type": "integer"
+                    "data" :{
+                        "type" : "object"
                     }
                 },
                 "required": [
-                    "sort_by"
+                    "data"
                 ]
             }
         }
