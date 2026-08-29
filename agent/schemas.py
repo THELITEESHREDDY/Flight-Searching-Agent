@@ -4,10 +4,10 @@ from pydantic import BaseModel
 class FlightSearchParams(BaseModel):
     departure_id: str
     arrival_id: str
-    outbound_date: str
+    journey_date: str
+    return_date: str | None=None
     travel_class: str = "1"
     adults: str = "1"
-    stops: str = "0"
     currency: str = "INR"
     hl: str = "en"
 
