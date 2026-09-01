@@ -5,8 +5,8 @@ from datetime import date
 from huggingface_hub import InferenceClient
 from dotenv import load_dotenv
 
-from tools import search_flights, compare_flights
-from schemas import tool_schema
+from agent.tools import search_flights, compare_flights
+from agent.schemas import tool_schema
 
 
 load_dotenv()
@@ -65,19 +65,23 @@ class Agent:
         self,
         client: InferenceClient,
         system_prompt: str = "",
-        tools: list | None = None
+        tools: list | None = None,
+        message_history:list=[]
     ):
         self.client = client
         self.system_prompt = system_prompt
         self.tools = tools or []
+        self.messages = message_history
 
-        self.messages = []
-
-        if self.system_prompt:
+        if self.system_prompt and len(self.messages) ==0 :
             self.messages.append({
                 "role": "system",
                 "content": self.system_prompt
             })
+
+
+
+
 
     def __call__(self, message: str = ""):
 
@@ -88,6 +92,17 @@ class Agent:
             })
 
         return self.execute()
+
+
+
+
+    def get_conversation_history():
+        #query db for history in this session
+        pass
+
+
+
+
 
     def execute(self):
 
@@ -222,12 +237,12 @@ client = InferenceClient(
 
 tools = tool_schema
 
-agent = Agent(
-    client,
-    SYSTEM_PROMPT,
-    tools
-)
+# agent = Agent(
+#     client,
+#     SYSTEM_PROMPT,
+#     tools
+# )
 
-print(
-    agent("find flights from chandigarh to vishakapatnam tomorrow ")
-)
+# print(
+#     agent("find flights from chandigarh to vishakapatnam tomorrow ")
+# )

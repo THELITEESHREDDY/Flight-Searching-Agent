@@ -76,21 +76,6 @@ def search_flights(
     }
 
 
-# results = search_flights(
-#     departure_id="IXC",
-#     arrival_id="VGA",
-#     outbound_date="2026-08-29",
-#     return_date="2026-09-02",
-# )
-# print(results)
-#print("\n\n\n",string_result,"\n\n\n\n",string_result1)
-
-
-
-
-
-
-
 def compare_flights(data: dict) -> dict:
     routes = data.get("routes", [])
 
