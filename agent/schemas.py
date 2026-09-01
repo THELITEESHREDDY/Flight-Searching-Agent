@@ -1,4 +1,12 @@
 from pydantic import BaseModel
+import enum
+
+
+class ChatRole(enum.Enum):
+    user = "user"
+    assistant = "assistant"
+    system = "system"
+
 
 
 class FlightSearchParams(BaseModel):
@@ -11,6 +19,10 @@ class FlightSearchParams(BaseModel):
     currency: str = "INR"
     hl: str = "en"
 
+class ModelResponse(BaseModel):
+    id: str
+    role: str
+    content: str
 
 tool_schema = [
 

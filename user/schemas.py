@@ -7,3 +7,8 @@ class create_user(BaseModel):
 
 class user_response(BaseModel):
     email:EmailStr
+    id:str
+
+class TokenResponse(BaseModel):
+    access_token:str
+    token_type:str

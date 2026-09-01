@@ -6,5 +6,8 @@ class Settings(BaseSettings):
     SERP_API:str
     AI_KEY:str
     SQLLITE:str
+    SECRET_KEY:str
+    ALGORITHM:str
+    ACCESS_TOKEN_EXPIRE_MINUTES:str
 
 settings = Settings()

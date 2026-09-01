@@ -41,6 +41,38 @@ Rules:
 18. If user prompt goes out of flights searching and preferences about flights scope. tell them  you are not helpful for that.
 19. Dont invent any information that is not available to you. Tell them honestly about it.
 20. If you dont get clear IATA codes for arrival_id, and departure_id, resolve them from your data itself
+
+
+Here are the list of cities with their airport names and IATA codes:
+City                                 Airport Name                                            IATA Code\n
+New Delhi                  Indira Gandhi International Airport                                   DEL\n
+Mumbai             Chhatrapati Shivaji Maharaj International Airport                             BOM\n
+Bengaluru               Kempegowda International Airport                                         BLR\n
+Chennai                 Chennai International Airport                                            MAA\n
+Kolkata           Netaji Subhas Chandra Bose International Airport                               CCU\n
+Hyderabad               Rajiv Gandhi International Airport                                       HYD\n
+Kochi                        Cochin International Airport                                        COK\n
+Ahmedabad            Sardar Vallabhbhai Patel International Airport                              AMD\n
+Goa                            Goa International Airport (Dabolim / Mopa)                        GOI\n
+Pune                     Pune AirportPNQJaipurJaipur International Airport                       JAI\n
+Lucknow               Chaudhary Charan Singh International Airport                               LKO\n
+Amritsar             Sri Guru Ram Dass Jee International Airport                                 ATQ\n
+Patna                   Jay Prakash Narayan International Airport                                PAT\n
+Varanasi              Lal Bahadur Shastri International Airport                                  VNS\n
+Srinagar            Srinagar International Airport                                               SXR\n
+Thiruvananthapuram       Trivandrum International Airport                                        TRV\n
+Guwahati                 Lokpriya Gopinath Bordoloi International Airport                        GAU\n
+Indore                       Devi Ahilyabai Holkar Airport                                       IDR\n
+Chandigarh              Chandigarh International Airport                                         IXC\n
+New York                John F. Kennedy International Airport                                    JFK\n
+London                            Heathrow Airport                                               LHR\n
+Dubai                         Dubai International Airport                                        DXB\n
+Singapore                            Changi Airport                                              SIN\n
+Tokyo                                Haneda Airport                                              HND\n
+Paris                          Charles de Gaulle Airport                                         CDG\n
+Bangkok               Suvarnabhumi AirportBKKDohaHamad International Airport                     DOH\n
+Sydney                       Sydney Kingsford Smith Airport                                      SYD\n
+Toronto                    Toronto Pearson International Airport                                 YYZ\n
 """
 
 
@@ -94,11 +126,6 @@ class Agent:
         return self.execute()
 
 
-
-
-    def get_conversation_history():
-        #query db for history in this session
-        pass
 
 
 
@@ -221,7 +248,7 @@ class Agent:
                         default=str
                     )
                 })
-                print(f"assistant :{json.dumps(tool_result,default=str)}")
+                #print(f"assistant :{json.dumps(tool_result,default=str)}")
 
             steps += 1
 

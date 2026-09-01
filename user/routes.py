@@ -1,7 +1,7 @@
 from fastapi import APIRouter,Depends
 from sqlalchemy.orm import Session
 
-from .schemas import user_response,create_user
+from .schemas import user_response,create_user,TokenResponse
 from user import controllers
 from utils.db import get_db
 
@@ -15,11 +15,9 @@ async def register_user(user:create_user,db:Session = Depends(get_db))->user_res
 
 
 
-@user_router.post("/login",response_model=user_response)
-async def login_user(user:create_user,db:Session = Depends(get_db))->user_response:
+@user_router.post("/login",response_model=TokenResponse)
+async def login_user(user:create_user,db:Session = Depends(get_db))->TokenResponse:
     return await controllers.login_user(user,db)
 
 
-@user_router.post("/logout")
-async def logout_user()->None:
-    return await controllers.logout_user()
+

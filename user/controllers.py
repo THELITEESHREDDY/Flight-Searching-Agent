@@ -2,7 +2,8 @@ import uuid
 from fastapi import HTTPException,status,Query
 
 from .models import UserTable
-from .schemas import create_user,user_response
+from .schemas import create_user,user_response,TokenResponse
+from utils.auth import verify_password, create_access_token,hash_password
 from sqlalchemy.orm import Session
 
 
@@ -28,7 +29,7 @@ async def register_user(user:create_user,db:Session)->user_response:
     new_user = UserTable(
             id=str(uuid.uuid4()),
             email=new_user_data["email"],
-            hashed_password=new_user_data["password"]
+            hashed_password=hash_password(new_user_data["password"])
         )
 
     db.add(new_user)
@@ -41,7 +42,7 @@ async def register_user(user:create_user,db:Session)->user_response:
 
 
 
-async def login_user(user:create_user,db:Session)->user_response:
+async def login_user(user:create_user,db:Session)->TokenResponse:
 
     user_data = user.model_dump()
 
@@ -59,15 +60,17 @@ async def login_user(user:create_user,db:Session)->user_response:
             detail="user does not exist"
         )
 
-    if existing_user.hashed_password != user_data.get("password"):
+    if not verify_password(user.password, existing_user.hashed_password):
         raise HTTPException(
-                status_code=status.HTTP_400_BAD_REQUEST,
-                detail="user does not exist"
-            )
-    
-    return existing_user
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid email or password"
+        )
 
+    access_token = create_access_token(
+        user_id=str(existing_user.id)
+    )
 
-
-async def logout_user():
-    return {"email":"logoutuser@gmail.com"}
+    return {
+        "access_token": access_token,
+        "token_type": "bearer"
+    }
