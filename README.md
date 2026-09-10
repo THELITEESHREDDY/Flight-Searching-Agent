@@ -1,4 +1,4 @@
-# Flight Booking Agent
+# Flight Searching Agent
 
 A no-framework flight-search agent built around LLM tool calling, SerpApi Google Flights, and deterministic Python functions.
 
