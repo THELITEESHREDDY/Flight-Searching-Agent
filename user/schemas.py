@@ -10,5 +10,5 @@ class user_response(BaseModel):
     id:str
 
 class TokenResponse(BaseModel):
-    access_token:str
+    access_token:str    
     token_type:str

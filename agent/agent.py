@@ -47,7 +47,7 @@ Here are the list of cities with their airport names and IATA codes:
 if you cant find the any city code from here or within you or got any error response from tools, instead of throwing errors 
 say you dont have any information about that and ask user to provide you what you need 
 City                                 Airport Name                                            IATA Code\n
-New Delhi/Delhi                  Indira Gandhi International Airport                                   DEL\n
+New Delhi/Delhi                  Indira Gandhi International Airport                             DEL\n
 Mumbai             Chhatrapati Shivaji Maharaj International Airport                             BOM\n
 Bengaluru               Kempegowda International Airport                                         BLR\n
 Chennai                 Chennai International Airport                                            MAA\n

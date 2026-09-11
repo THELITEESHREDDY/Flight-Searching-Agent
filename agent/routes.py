@@ -30,7 +30,7 @@ async def generate_chat(message:str,chat_id:str,db:Session=Depends(get_db),user:
 
 
 @agent_router.get("/{chat_id}")
-async def get_chat(chat_id,db:Session=Depends(get_db),user:UserTable=Depends(get_current_user))->list[ModelResponse]:
+async def get_chat(chat_id:str,db:Session=Depends(get_db),user:UserTable=Depends(get_current_user))->list[ModelResponse]:
     return  await controller.get_chat(str(user.id),chat_id,db)
 
 

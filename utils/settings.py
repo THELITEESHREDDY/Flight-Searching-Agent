@@ -9,5 +9,6 @@ class Settings(BaseSettings):
     SECRET_KEY:str
     ALGORITHM:str
     ACCESS_TOKEN_EXPIRE_MINUTES:str
+    ALLOWED_ORIGINS:list[str]
 
 settings = Settings()
